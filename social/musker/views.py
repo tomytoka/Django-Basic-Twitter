@@ -12,3 +12,20 @@ def profile_list(request):
     else:
         messages.success(request,("You must be logged."))
         return redirect('home')
+    
+def profile(request,pk):
+    if request.user.is_authenticated: 
+        profile = Profile.objects.get(user_id=pk)
+        if request.method == "POST":
+            current_user_profile = request.user.profile
+            action = request.POST['follow']
+            if action == "unfollow" :
+                current_user_profile.follows.remove(profile)
+            else :
+                current_user_profile.follows.add(profile)
+            current_user_profile.save()
+        return render(request, 'profile.html',{"profile":profile})
+    else:
+        messages.success(request,("You must be logged."))
+        return redirect('home')
+
