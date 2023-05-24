@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .models import Profile, Post
-from .forms import PostForm
+from .forms import PostForm, signUpForm
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
 def home(request):
     posts = Post.objects.all().order_by("-created_at")
@@ -46,3 +49,43 @@ def profile(request,pk):
         messages.success(request,("You must be logged."))
         return redirect('home')
 
+def login_user(request):
+    if request.method =="POST":
+        username= request.POST['username']
+        password= request.POST['password']
+        user= authenticate(request, username=username,password=password)
+        if user is not None:
+            login(request,user)
+            messages.success(request,("Welcome back {user.username}"))
+            return redirect('home')
+        else:
+            messages.success(request,("Error login in , please try again."))
+            return redirect('login')
+
+    else:
+        return render(request, 'login.html',{})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request,("You have logged out."))
+    return redirect('home')
+
+def register_user(request):
+    form = signUpForm()
+    if request.method == "POST":
+        form = signUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+
+            user = authenticate(username=username,password=password)
+            login(request,user)
+            messages.success(request,("You have succesfully Register!"))
+            return redirect('home')
+            
+
+    return render(request, 'register.html', {'form':form })
