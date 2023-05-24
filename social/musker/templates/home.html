@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Yi Long Ma!</h1>
+
+{%if request.user.is_authenticated%}
+    holaaaa
+    {{request.user.username}}
+{%endif%}
+{%endblock%}
