@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{%load static%}
 {% block content %}
 {%if profile%}
 <div class="container text-center">
@@ -10,13 +11,25 @@
             {%if posts %}
               {%for post in posts %}
               <div class="alert alert-info" role="alert">
+                <div class="container" >
+                  <div class="row">
+                    <div class="col-1">
+                      {%if profile.profile_image%}
+                      <img src="{{profile.profile_image.url}}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
+                      {%else%}
+                      <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
+                      {%endif%}
+                    </div>
+                    <div class="col-10">
                 {{post.body}}
                </br>
                 <small class="text-muted">
                    {{post.created_at}} by @{{post.user.username}}
                 </small>
-                 </div>
-              </br>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {%endfor%}
            {%endif%} 
         </div>
@@ -24,7 +37,7 @@
           </br>
           </br>
           {%if profile.profile_image%}
-          <img src="{{profile.profile_image.url}}">
+          <img src="{{profile.profile_image.url}}" class="rounded" width="200" height="200">
           {%endif%}
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
