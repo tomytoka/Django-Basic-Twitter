@@ -23,6 +23,9 @@
         <div class="col-4">
           </br>
           </br>
+          {%if profile.profile_image%}
+          <img src="{{profile.profile_image.url}}">
+          {%endif%}
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
                 <strong> Follows</strong>
@@ -53,6 +56,10 @@
                 
                 {%endif%}
             </form> 
+          </br>
+          {%if request.user.id == profile.user.id%}
+          <a href="{%url 'update_user'%}" class="btn btn-outline-primary">Edit profile</a>
+          {%endif%}
         </div>
     </div>
 </div>

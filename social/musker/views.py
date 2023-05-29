@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .models import Profile, Post
-from .forms import PostForm, signUpForm
+from .forms import PostForm, SignUpForm,ProfilePicForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.contrib.auth.models import User
 
 def home(request):
     posts = Post.objects.all().order_by("-created_at")
@@ -71,16 +72,16 @@ def logout_user(request):
     return redirect('home')
 
 def register_user(request):
-    form = signUpForm()
+    form = SignUpForm()
     if request.method == "POST":
-        form = signUpForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
+            #first_name = form.cleaned_data['first_name']
+            #last_name = form.cleaned_data['last_name']
+            #email = form.cleaned_data['email']
 
             user = authenticate(username=username,password=password)
             login(request,user)
@@ -89,3 +90,22 @@ def register_user(request):
             
 
     return render(request, 'register.html', {'form':form })
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user= User.objects.get(id=request.user.id)
+        profile_user = Profile.objects.get(user__id=request.user.id)
+        user_form = SignUpForm(request.POST or None, request.FILES or None, instance=current_user)
+        profile_form =  ProfilePicForm(request.POST or None, request.FILES or None, instance=profile_user)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            login(request,current_user)
+            messages.success(request,("Profile Updated."))
+            return redirect('home')
+        return render(request, 'update_user.html', {'user_form':user_form,'profile_form':profile_form})
+        
+    else:
+        messages.success(request,("You must be logged in to view this page"))
+        return render(request, 'home', {})
