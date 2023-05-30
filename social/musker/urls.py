@@ -11,4 +11,5 @@ urlpatterns = [
     path('register',views.register_user,name='register'),
     path('update_user',views.update_user,name='update_user'),
     path('post_like/<int:pk>',views.post_like,name="post_like"),
+    path('post_detail/<int:pk>',views.post_detail,name="post_detail"),
 ]

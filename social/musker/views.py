@@ -117,6 +117,14 @@ def post_like(request,pk):
             post.likes.remove(request.user)
         else:
             post.likes.add(request.user)
-        return redirect('home')
+        return redirect(request.META.get("HTTP_REFERER"))
     else:
         messages.success(request,("You must be logged in to like this post."))
+
+def post_detail(request,pk):
+    post= get_object_or_404(Post,id=pk)
+    if post:
+        return render(request, 'post.html', {'post':post })
+    else:
+        messages.success(request,("Post no longer available."))
+        return redirect('home')
