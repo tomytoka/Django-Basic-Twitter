@@ -12,7 +12,7 @@
     </br></br></br></br>
     {%endif%}
     {%for post in posts %}
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info " role="alert">
         <div class="container" >
           <div class="row">
             <div class="col-1">
@@ -22,12 +22,23 @@
               <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
               {%endif%}
             </div>
-            <div class="col-10">
-        {{post.body}}
-       </br>
-        <small class="text-muted">
-           {{post.created_at}} by <a href="{%url 'profile' post.user.id%}">@{{post.user.username}}</a> 
-        </small>
+            <div class="col-11 ">
+                <div class="text-start ">
+                        <b>{{post.user.first_name}}</b>
+                        <small class="text-muted"><a href="{%url 'profile' post.user.id%}">@{{post.user.username}}</a> · {{post.created_at}}  </small>
+                </div>
+                <p class="text-start ">
+                    {{post.body}}
+                </p>
+                <p class="text-end text-muted">
+                    {{post.number_of_likes}} likes 
+                    {%if user in post.likes.all%}
+                    <a href="{%url 'post_like' post.id%}">Unlike</a>
+                    {%else%}
+                    <a href="{%url 'post_like' post.id%}">Like</a>
+                    {%endif%}
+                </p>
+                
             </div>
           </div>
         </div>

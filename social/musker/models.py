@@ -7,12 +7,17 @@ class Post(models.Model):
 	user = models.ForeignKey(User, related_name="posts", on_delete=models.DO_NOTHING)
 	body = models.CharField(max_length=300)
 	created_at=models.DateTimeField(auto_now_add=True)
+	likes = models.ManyToManyField(User,related_name="post_like",blank=True)
+	def number_of_likes(self):
+		return self.likes.count()
+
 	def __str__(self):
 		return(
 			f"{self.user}"
 			f"({self.created_at:%Y-%m-%d %H:%M}): "
 			f"{self.body}..."
 			)
+
 
 
 class Profile(models.Model):

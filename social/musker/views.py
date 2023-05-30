@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib import messages
 from .models import Profile, Post
 from .forms import PostForm, SignUpForm,ProfilePicForm
@@ -109,3 +109,14 @@ def update_user(request):
     else:
         messages.success(request,("You must be logged in to view this page"))
         return render(request, 'home', {})
+    
+def post_like(request,pk):
+    post= get_object_or_404(Post,id=pk)
+    if request.user.is_authenticated :
+        if post.likes.filter(id=request.user.id):
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return redirect('home')
+    else:
+        messages.success(request,("You must be logged in to like this post."))

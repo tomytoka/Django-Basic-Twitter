@@ -20,12 +20,15 @@
                       <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
                       {%endif%}
                     </div>
-                    <div class="col-10">
-                {{post.body}}
-               </br>
-                <small class="text-muted">
-                   {{post.created_at}} by @{{post.user.username}}
-                </small>
+                    <div class="col-11 ">
+                      <div class="text-start ">
+                              <b>{{post.user.first_name}}</b>
+                              <small class="text-muted"><a href="{%url 'profile' post.user.id%}">@{{post.user.username}}</a> · {{post.created_at}}  </small>
+                      </div>
+                      <p class="text-start ">
+                          {{post.body}}
+                      </p>
+                      
                     </div>
                   </div>
                 </div>
