@@ -49,6 +49,16 @@ def profile(request,pk):
     else:
         messages.success(request,("You must be logged."))
         return redirect('home')
+    
+def unfollow(request,pk):
+    if request.user.is_authenticated:
+        profile=Profile.objects.get(user_id=pk)
+        request.user.profile.follows.remove(profile)
+        request.user.profile.save()
+        return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        messages.success(request,("You must be logged."))
+        return redirect(request.META.get("HTTP_REFERER"))
 
 def login_user(request):
     if request.method =="POST":

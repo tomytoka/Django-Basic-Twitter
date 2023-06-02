@@ -12,38 +12,39 @@
     </br></br></br></br>
     {%endif%}
     {%for post in posts %}
-    <div class="alert alert-info " role="alert">
-        <div class="container" >
-          <div class="row">
-            <div class="col-1">
-              {%if post.user.profile.profile_image%}
-              <img src="{{post.user.profile.profile_image.url}}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
-              {%else%}
-              <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
-              {%endif%}
-            </div>
-            <div class="col-11 ">
-                <div class="text-start ">
-                        <b>{{post.user.first_name}}</b>
-                        <small class="text-muted"><a href="{%url 'profile' post.user.id%}">@{{post.user.username}}</a> · {{post.created_at}}  </small>
-                </div>
-                <p class="text-start ">
-                    {{post.body}}
-                </p>
-                <p class="text-end text-muted">
-                    {%if user in post.likes.all%}
-                    <a href="{%url 'post_like' post.id%}">d<i class="fa fa-heart"style="color:rgb(255, 0, 102)"></i></a>
-                    {%else%}
-                    <a href="{%url 'post_like' post.id%}">l<i class="fa fa-heart-o"style="color: rgb(113, 118, 123)" ></i></a>
-                    {%endif%}
-                    {{post.number_of_likes}}
-                    <a href="{%url 'post_detail' post.id%}"><i class="fa-solid fa-share-nodes"></i></a>
-                </p>
-                
+      <div class="alert alert-info " role="alert" >
+          <div class="container" >
+            <div class="row">
+              <div class="col-1">
+                {%if post.user.profile.profile_image%}
+                <img src="{{post.user.profile.profile_image.url}}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
+                {%else%}
+                <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="50" height="50" alt="{{profiles.user.username}}">
+                {%endif%}
+              </div>
+              <div class="col-11 ">
+                  <div class="text-start ">
+                          <b>{{post.user.first_name}}</b>
+                          <small class="text-muted" data-toggle="tooltip" title="{{post.created_at}}"><a href="{%url 'profile' post.user.id%}">@{{post.user.username}}</a> · {{ post.whenpublished }}  </small>
+                  </div>
+                    <div >
+                      <p class="text-start ">
+                        {{post.body}}
+                      </p>
+                      <p class="text-end text-muted">
+                        {%if user in post.likes.all%}
+                        <a href="{%url 'post_like' post.id%}"><i class="fa fa-heart"style="color:rgb(255, 0, 102)"></i></a>
+                        {%else%}
+                        <a href="{%url 'post_like' post.id%}"><i class="fa fa-heart-o"style="color: rgb(113, 118, 123)" ></i></a>
+                        {%endif%}
+                        {{post.number_of_likes}}
+                        <a href="{%url 'post_detail' post.id%}"><i class="fa-solid fa-share-nodes"></i></a>
+                      </p>
+                    </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     {%endfor%}
 </div>
 <div class="col-4">

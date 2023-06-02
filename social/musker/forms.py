@@ -5,10 +5,14 @@ from django.contrib.auth.models import User
 
 class ProfilePicForm(forms.ModelForm):
      profile_image= forms.ImageField(label="Profile Picture")
+     profile_bio=forms.CharField(label="",widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Profile Bio'}))
+     homepage_link =forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'website link'}))
+     instagram_link =forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'instagram link'}))
+     linkedin_link=forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'linkedin link'}))
 
      class Meta:
         model= Profile
-        fields = ('profile_image',)
+        fields = ('profile_image','profile_bio','homepage_link','instagram_link','linkedin_link')
 
 
 class PostForm(forms.ModelForm):

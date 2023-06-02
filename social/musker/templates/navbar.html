@@ -1,3 +1,4 @@
+{%load static%}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{%url 'home' %}">Emusker</a>
@@ -10,12 +11,6 @@
           <a class="nav-link" href="{%url 'profile_list'%}">Profile List</a>
         </li>
         {%if user.is_authenticated%}
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'profile' request.user.id %}"> My Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'logout' %}"> Logout</a>
-        </li>
         {%else%}
         <li class="nav-item">
           <a class="nav-link" href="{%url 'login' %}"> Login</a>
@@ -25,10 +20,21 @@
         </li>
         {%endif%}
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      {%if user.is_authenticated%}
+      <div class="dropdown">
+        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {%if user.profile.profile_image%}
+          <img src="{{user.profile.profile_image.url}}" class="rounded-circle" width="30" height="30" alt="{{profiles.user.username}}">
+        {%else%}
+          <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="30" height="30" alt="{{profiles.user.username}}">
+        {%endif%}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="{%url 'profile' request.user.id %}">My Profile</a></li>
+          <li><a class="dropdown-item" href="{%url 'logout' %}">Logout</a></li>
+        </ul>
+      </div>
+      {%endif%}
     </div>
   </div>
 </nav>
