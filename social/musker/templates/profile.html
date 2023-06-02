@@ -45,7 +45,7 @@
               {%endfor%}
            {%endif%} 
         </div>
-        <div class="col-3">
+        <div class="col-2">
           </br>
           </br>
           {%if profile.profile_image%}
@@ -102,11 +102,16 @@
                     {%else%}
                     <img src="{%static 'images/default-picture.jpeg'%}" class="rounded-circle" width="30" height="30" alt="{{profiles.user.username}}">
                     {%endif%}
-                    <a href="{%url 'profile' following.user.id%}">@{{following}}</a></li>
+                    <a href="{%url 'profile' following.user.id%}">@{{following}}</a>
+                    {%if following in profile.follows.all %}
+                    {%else%}
+                    <a href="{%url 'follow' following.user.id%}"><button class="btn btn-outline-success btn-sm" >Follow</button></button></a>
+                    {%endif%}
+                  </li>
+                    
                   {%endfor%}
                 </ul>
-              </div>
-            </br> 
+              </div> 
         </div>
         <div class="col-2" >
         </br></br>
